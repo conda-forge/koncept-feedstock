@@ -6,24 +6,26 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: a7d628f923b096b557a79ec8502baae5b8b3459ae3ef5dd9db41faca11074268
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
 
 requirements:
   host:
     - pip
-    - python >=3.6,<3.9
+    - python {{ python_min }}
     - poetry
   run:
     - kuti >=0.9.4,<0.10.0
-    - python >=3.6,<3.9
+    - python >={{ python_min }},<3.9
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - koncept
     - koncept.models
